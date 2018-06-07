@@ -4,6 +4,8 @@ pragma solidity ^0.4.24;
  * @title SafeMath
  * @dev Math operations with safety checks that throw on error
  */
+
+ 
 library SafeMath {
 
   /**
@@ -58,33 +60,57 @@ contract Publish {
         
         address content_owner;
         string ipfs_content;
-        uint256 shares
-        address []
+        uint256 shares;
+        address [] = ;
     }
 
 
-    function publish() public payable {
-        
+
+
+
+    struct Influencer{
+       bool shared = false;
+       uint256 followers;
+    }
+
+    mapping(address => User ) public Influencers;
+
+    uint public ammount_
+    address public owner;
+    address [] public BNS;
+
+
+    function publish(Content cont) public payable {
+        require(msg.value != 0 );
+        require();
         
     }
 
 
-    function shareEvent(){
-        
-        
+    function shareEvent(address _address){
+      require(Influencers[_address].shared != true);
+      if (Influencers[_address].followers > )
     }
+
     function AuthorStopCollect(){
-        
+        require(msg.sender == owner);
+        EffortPayment
+
+
     }
 
         
-    function EffortPayment() {
-        
-        
+    function EffortPayment() { 
+
+                for (uint i=0 ; i < BNS.length; i++){
+                  BNS[]
+
+        }
     }
     
 
     function UserCollect() {
+
         
     }
 
