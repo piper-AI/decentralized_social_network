@@ -57,27 +57,27 @@ contract Publish {
 
 
     struct Content {
-        
         address content_owner;
         string ipfs_content;
-        uint256 shares;
-        address [] = ;
     }
 
 
-
-
-
+    uint256 shares;
+    
     struct Influencer{
-       bool shared = false;
+       bool top5;
+       bool shared;
        uint256 followers;
     }
 
-    mapping(address => User ) public Influencers;
+    mapping(address => Influencer ) public Influencers;
 
-    uint public ammount_
+    uint public ammount_raised;
+    uint public ammount_;
     address public owner;
     address [] public BNS;
+    mapping(address => Influencer) public Influencers;
+    uint minimum_I_value;
 
 
     function publish(Content cont) public payable {
@@ -88,29 +88,59 @@ contract Publish {
 
 
     function shareEvent(address _address){
+      require(msg.gas >= add(gas_ammount_to_stop,gas_ammount_to_share));
+      require(msg.gas >= add(gas_ammount_to_end,gas_ammount_to_share));
       require(Influencers[_address].shared != true);
-      if (Influencers[_address].followers > )
+      Influencers[_address].shared = true;
+      minimum = get_min_inf();
+      ammount_raised = ;
+      if (Influencers[_address].followers > minimum[0] ){
+        BNS[minimum[1]] = _address;
+        Influencers[BNS[minimum[1]]].top = false;
+        Influencers[_address].top5 = true;
+      }
+
+    }
+
+    function get_min_inf(){
+      uint min;
+      uint min_addr;
+      if(BNS.length > 1){
+        min = Influencers[BNS[0]];
+        for (uint i=1; i< BNS.length){
+            if (Influencers[BNS[i]].followers < min){
+              min = Influencers[BNS[i]].followers;
+              min_addr_count = i;
+            }
+        }
+      }
+      return min,min_addr_count
     }
 
     function AuthorStopCollect(){
         require(msg.sender == owner);
-        EffortPayment
-
-
+        EachAmmount = EffortPayment();
+        if(BNS.length >0){
+          for (uint i=1; i< BNS.length){
+              BNS[i].transfer(EachAmmount);
+          }
+         
+        }
+        socialnet_adr.transfer(div(mul(30,msg.value),100));
+        selfdestruct(owner);
     }
 
         
     function EffortPayment() { 
-
                 for (uint i=0 ; i < BNS.length; i++){
-                  BNS[]
-
+                }
         }
     }
     
 
-    function UserCollect() {
-
+    function UserCollect(address _address) {
+          require( Influencers[_address].top5 == true)
+          _address.transfer(EachAmmount);
         
     }
 
@@ -121,10 +151,12 @@ contract SocialCore {
     
     struct User {
         address adr;
-        string ipfs_user;
+        string ipns_user_profile;
+        string ipns_user_post;
         address [] followers;
     }
     
+
 
     function OpenContentToCollect()
     {
@@ -138,6 +170,11 @@ contract SocialCore {
 
     }
 
+    function GitUsersDevTeam()
+    {
+
+
+    }
     
 }
 
