@@ -50,7 +50,12 @@ library SafeMath {
   }
 }
 
-contract Publish {
+
+
+
+
+
+contract Publish{
     using SafeMath for uint256;
 
     struct Content {
@@ -68,6 +73,8 @@ contract Publish {
     mapping(address => Influencer ) public Influencers;
 
     // 
+    string ipfs_content;
+    SocialCore score;
     address socialnet_adr;
     uint256 public gas_ammount_to_stop;
     uint256 public gas_ammount_to_end;
@@ -83,21 +90,22 @@ contract Publish {
     
     uint256 public debug_gas;
 
-     constructor (address _address) public payable {
+     constructor (string ipfs_content1, address sc_owner, SocialCore socialcore) public payable {
+        score = socialcore;
+        socialnet_adr;sc_owner;
         owner=msg.sender;
         ammount_ = msg.value;
-        debug_gas = msg.gas;
-        require(msg.value != 0 );
+        debug_gas = gasleft();
+        ipfs_content = ipfs_content1;
         finished=false;
         collected=0;
         gas_ammount_to_stop=0;
         gas_ammount_to_end=0;
-        
     }
 
     function shareEvent  (address _address) public{
-      if (msg.gas >= gas_ammount_to_stop){
-          if(msg.gas >= gas_ammount_to_end){
+      if (gasleft() >= gas_ammount_to_stop){
+          if(gasleft() >= gas_ammount_to_end){
                     uint256 [2] memory minimum;
                 //   require(msg.gas >= add(gas_ammount_to_stop,gas_ammount_to_share));
                 //   require(msg.gas >= add(gas_ammount_to_end,gas_ammount_to_share));
@@ -107,8 +115,8 @@ contract Publish {
                 //   ammount_raised = ;
                 
                 
-                // Influencers Followers---> Users Followers.
-                  if (Influencers[_address].followers > minimum[0] ){
+                // Influencers Friends ---> Users Friends.
+                  if (score.getUsercount(_address) > minimum[0] ){
                     BNS[minimum[1]] = _address;
                     Influencers[BNS[minimum[1]]].top5 = false;
                     Influencers[_address].top5 = true;
@@ -132,17 +140,29 @@ contract Publish {
       uint min_addr_count;
       uint256 [2] memory minimal;
       if(BNS.length > 1){
-        min = Influencers[BNS[0]].followers;
+          
+        min = score.getUsercount(BNS[0]);
         for (uint i=1; i< BNS.length ;i++){
-            if (Influencers[BNS[i]].followers < min){
-              min = Influencers[BNS[i]].followers;
+            if (score.getUsercount(BNS[i]) < min){
+              min = score.getUsercount(BNS[i]);
               min_addr_count = i;
             }
         }
         minimal[0] = min;
         minimal[1] = min_addr_count;
       }
-      
+    //         if(BNS.length > 1){
+    //       score.getUsercount(BNS[0])
+    //     min = Influencers[BNS[0]].followers;
+    //     for (uint i=1; i< BNS.length ;i++){
+    //         if (Influencers[BNS[i]].followers < min){
+    //           min = Influencers[BNS[i]].followers;
+    //           min_addr_count = i;
+    //         }
+    //     }
+    //     minimal[0] = min;
+    //     minimal[1] = min_addr_count;
+    //   }
       return minimal;
     }
 
@@ -192,60 +212,60 @@ contract Publish {
 
 }
 
+contract User {
+    bool public ishere;
+    string public name;
+    string private ipfs_hash;
+    address public owner;
+    address[] public Friends;
+    
+    constructor (string name1,string ipfs_hash1) public payable {
+
+        owner = msg.sender;
+        name = name1;
+        ipfs_hash = ipfs_hash1;
+        ishere = true;
+    }
+
+    function  AddFriends(address addressf)public {Friends.push(addressf);}
+    
+}
+
+
 contract SocialCore {
+    address public sc_owner;
+    uint256 public debug_gas_sc;
+    mapping (address => UserP) public Users;
     
-    
-    address socialnet_adr;
-    uint256 debug_gas_sc;
-    struct Follow {
-        bool is_f;
+    struct UserP {
+        User Useradd;
+        address[] Publish;
+        uint256 counter;
     }
-    
-    struct User {
-        string ipns_user_profile;
-        string ipns_user_post;
-        mapping (address => Follow) Followers;
-        
-    }
-    mapping(address => User ) public Users;  
-    
-    constructor(address _addresso){
-                socialnet_adr = msg.sender;
-                debug_gas_sc = msg.gas;
-        
-    }
-    
-    function CreateUser(address addresu, string ipnsProf, string ipnsPost) public payable{
-        Users[addresu].ipns_user_profile = ipnsProf;
-        Users[addresu].ipns_user_post = ipnsPost;
-        
-    }
-
-
-    function AddFollowerFS(address addressu,address addressf) public 
+    constructor() public payable
     {
-        Users[addressu].Followers[addressf].is_f=true;
+                sc_owner = msg.sender;
+                debug_gas_sc = gasleft();
     }
-
-
-
-    // function OpenContentToCollect()
-    // {
-
-
-    // }
+    function AddFriendsS(address addressf) public 
+    {
+        Users[msg.sender].Useradd.AddFriends(addressf);
+        Users[msg.sender].counter += 1;
+    }
     
-    // function MaintenanceRedistribution()
-    // {
-
-
-    // }
-
-    // function GitUsersDevTeam()
-    // {
-    //# QualityCommits
-
-
-    // }
+    function  CreateUser(string name, string ipfs_hash) public {
+        Users[msg.sender].Useradd = new User(name,ipfs_hash);
+        
+        
+    }
+    
+    function CreatePublish(string ipfs, address sc_owner1) public {
+        address Pub = new Publish(ipfs,sc_owner1,this);
+        Users[msg.sender].Publish.push(Pub);
+    }
+    
+    function getUsercount(address useradd) public returns(uint256) {
+        return Users[useradd].counter;
+    }
     
 }
