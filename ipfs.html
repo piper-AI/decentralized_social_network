@@ -1,0 +1,100 @@
+<html>
+  <body>
+    <h2>ipfs-mini</h2>
+    <h3>Browser Example</h3>
+    <hr />
+    <h4>Get IPFS Hash Data<h4>
+    <input type="text" id="lookupHash"/>
+    <button id="lookup">Lookup Block</button>
+    <button id="lookupStats">Get Stats</button>
+    <br /><br />
+    <div id="lookupResponse"></div>
+    <hr />
+    <h4>Add String Data</h4>
+    <textarea id="addInputData" placeholder="Hello world!"></textarea>
+    <br />
+    <button id="addData">Add Data</button>
+    <div id="lookupResponse"></div>
+    <hr />
+    <h4>Add JSON Data</h4>
+    <textarea id="addJSONdata" placeholder="Hello world!"></textarea>
+    <br />
+    <button id="addJSONData">Add JSON Data</button>
+    <br /><br />
+    <div id="addResponse"></div>
+    <div id="lookupResponse"></div>
+    <br />
+
+
+
+    <script type="text/javascript" src="../dist/ipfs-mini.js"></script>
+    <script type="text/javascript">
+      var el = function(id){ return document.querySelector(id); };
+      var ipfs = new IPFS({ host: 'ipfs.infura.io', protocol: 'https' });
+
+      el('#lookup').addEventListener('click', function(){
+        var isJSON = false;
+        var lookupHash = el('#lookupHash').value;
+
+        ipfs.catJSON(lookupHash, (err, result) => {
+          if (err) {
+            el('#lookupResponse').innerHTML = 'Hmm.. there was an error: ' + String(err);
+          } else {
+            el('#lookupResponse').innerHTML = result;
+          }
+        });
+      });
+
+
+
+      el('#lookupStats').addEventListener('click', function(){
+        var lookupHash = el('#lookupHash').value;
+
+        ipfs.stat(lookupHash, (err, result) => {
+          if (err) {
+            el('#lookupResponse').innerHTML = 'Hmm.. there was an error: ' + String(err);
+          } else {
+            el('#lookupResponse').innerHTML = JSON.stringify(result, null, 2);
+          }
+        });
+      });
+
+      el('#addData').addEventListener('click', function(){
+        var isJSON = false;
+        var inputData = el('#addInputData').value;
+
+        ipfs.add(inputData, (err, result) => {
+          if (err) {
+            el('#addResponse').innerHTML = 'Hmm.. there was an error: ' + String(err);
+          } else {
+            el('#addResponse').innerHTML = result;
+          }
+        });
+      });
+      el('#addJSONData').addEventListener('click', function(){
+        var isJSON = true;
+        var inputData = el('#addJSONdata').value;
+
+        ipfs.addJSON(inputData, (err, result) => {
+          if (err) {
+            el('#addResponse').innerHTML = 'Hmm.. there was an error: ' + String(err);
+          } else {
+            el('#addResponse').innerHTML = result;
+            console.log(result)
+          }
+        });
+      });
+      el('#addImage').addEventListener('click', function(){
+        var isJSON = false;
+        var inputData = el('#addImage').value;
+        var uploader = new IPFS(new IPFS());
+        var file_input = document.getElementById(inputData);
+        //var hash = uploader.uploadBlob(e.target.files[0]);
+        var img_tag = document.querySelector( "#output" );
+        uploader.loadImage(img_tag, file_input);
+
+        
+      });
+    </script>
+  </body>
+</html>
