@@ -129,6 +129,7 @@ contract Publish{
                 require(Influencers[msg.sender].shared != true);
                 Influencers[msg.sender].shared = true;
                 shares += 1;
+                score.CreatePublish(msg.sender,this);
                 minimum = get_min_inf();
                 //   ammount_raised = ;
                 // Influencers Friends ---> Users Friends.
@@ -147,6 +148,8 @@ contract Publish{
         //CallSocialToTransfer.
     }
 
+    function getBNS() public view returns(uint256){return BNS.length;}
+
     function get_min_inf() public view returns(uint256[2] memory){
         // index
       uint min;
@@ -156,7 +159,7 @@ contract Publish{
         for (uint i=0; i< BNS.length ;i++){
             if(BNS[i]==address(0x0)){
                         minimal[0] = min;
-                         minimal[1] = min_addr_count;
+                         minimal[1] = i;
                 return minimal;
             }else{
             if (score.getUsercount(BNS[i]) < min || BNS[i]==address(0x0)){
@@ -204,9 +207,8 @@ contract Publish{
     function EffortPayment() public view returns(uint256 [2] memory ){ 
         // easy and boring proposal  all equals
                 uint256[2] memory AmmountAll;
-                uint256 Ammount;
                 AmmountAll[0]=SafeMath.div(SafeMath.div(SafeMath.mul(75,ammount_),100),BNS.length);
-                AmmountAll[1]= ammount_- Ammount;
+                AmmountAll[1]= ammount_- SafeMath.mul(BNS.length,AmmountAll[0]);
                 return AmmountAll;
         }
     
@@ -220,11 +222,10 @@ contract Publish{
           msg.sender.transfer(Pammount_[0]);
           collected += 1;
         }
-         if(collected==BNS.length){
+         if(collected==(BNS.length+1)){
               selfdestruct(owner);
           }
           
-        
     }
 
 
@@ -292,6 +293,7 @@ contract SocialCore {
     function getPublishUser() public view returns(address){
         return Users[msg.sender].Publish[0];
     }
+    
     
 }
 
