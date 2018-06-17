@@ -52,16 +52,8 @@ library SafeMath {
 
 
 
-
-
-
 contract Publish{
     using SafeMath for uint256;
-
-    struct Content {
-        address content_owner;
-        string ipfs_content;
-    }
 
     uint256 public shares;
     struct Influencer{
@@ -83,16 +75,16 @@ contract Publish{
     uint256 public ammount_;
     address public owner;
     address [] public BNS;
-    address [] public BNS_finish;
-    uint256 collected;
+    // address [2] public BNS_finish;
+    uint256 public collected;
     // mapping(address => Influencer) public Influencers;
     uint minimum_I_value;
     
     uint256 public debug_gas;
 
-     constructor (string ipfs_content1, address sc_owner, SocialCore socialcore) public payable {
+     constructor (string ipfs_content1, SocialCore socialcore) public payable {
         score = socialcore;
-        socialnet_adr;sc_owner;
+        socialnet_adr=score.OwnerIs();
         owner=msg.sender;
         ammount_ = msg.value;
         debug_gas = gasleft();
@@ -101,56 +93,80 @@ contract Publish{
         collected=0;
         gas_ammount_to_stop=0;
         gas_ammount_to_end=0;
+        score.CreatePublish(owner,this);
+        BNS.length = 2;
+
     }
 
-    function shareEvent  (address _address) public{
-      if (gasleft() >= gas_ammount_to_stop){
-          if(gasleft() >= gas_ammount_to_end){
-                    uint256 [2] memory minimum;
-                //   require(msg.gas >= add(gas_ammount_to_stop,gas_ammount_to_share));
-                //   require(msg.gas >= add(gas_ammount_to_end,gas_ammount_to_share));
-                  require(Influencers[_address].shared != true);
-                  Influencers[_address].shared = true;
-                  minimum = get_min_inf();
-                //   ammount_raised = ;
-                
-                
-                // Influencers Friends ---> Users Friends.
-                  if (score.getUsercount(_address) > minimum[0] ){
-                    BNS[minimum[1]] = _address;
-                    Influencers[BNS[minimum[1]]].top5 = false;
-                    Influencers[_address].top5 = true;
-                    shares += 1;
-                  }
+    // function shareEvent() public{
+    //     //       if (gasleft() >= gas_ammount_to_stop){
+    //     //   if(gasleft() >= gas_ammount_to_end){
+    
+    //   if (true){
+    //       if(true){
+    //                 uint256 [2] memory minimum;
+    //             //   require(msg.gas >= add(gas_ammount_to_stop,gas_ammount_to_share));
+    //             //   require(msg.gas >= add(gas_ammount_to_end,gas_ammount_to_share));
+    //               require(Influencers[msg.sender].shared != true);
+    //               Influencers[msg.sender].shared = true;
+    //               shares += 1;
+    //               minimum = get_min_inf();
+    //             //   ammount_raised = ;
+    //             // Influencers Friends ---> Users Friends.
+    //               if (score.getUsercount(msg.sender) > minimum[0] ){
+    //                 BNS[minimum[1]] = msg.sender;
+    //                 Influencers[BNS[minimum[1]]].top5 = false;
+    //                 Influencers[msg.sender].top5 = true;
+    //               }
                   
-          }else {}
-      }else {Finish();}
+    //       }else {}
+    //   }else {Finish();}
      
+    // }
+    
+    function shareEvent() public{
+                uint256 [2] memory minimum;
+                require(Influencers[msg.sender].shared != true);
+                Influencers[msg.sender].shared = true;
+                shares += 1;
+                minimum = get_min_inf();
+                //   ammount_raised = ;
+                // Influencers Friends ---> Users Friends.
+                if (score.getUsercount(msg.sender) > minimum[0]  ||  BNS[minimum[1]]==address(0x0)){
+                    Influencers[BNS[minimum[1]]].top5 = false;
+                    BNS[minimum[1]] = msg.sender;
+                    Influencers[msg.sender].top5 = true;
+                }
+        if (shares>=2){Finish();}
     }
+    
     function Finish() public {
-        
         finished=true;
         Pammount_ = EffortPayment();
-        socialnet_adr.transfer(Pammount_[1]);
+        // socialnet_adr.transfer(Pammount_[1]);
+        //CallSocialToTransfer.
     }
 
-    function get_min_inf() public returns(uint256[2] memory){
+    function get_min_inf() public view returns(uint256[2] memory){
         // index
       uint min;
       uint min_addr_count;
       uint256 [2] memory minimal;
-      if(BNS.length > 1){
-          
         min = score.getUsercount(BNS[0]);
-        for (uint i=1; i< BNS.length ;i++){
-            if (score.getUsercount(BNS[i]) < min){
+        for (uint i=0; i< BNS.length ;i++){
+            if(BNS[i]==address(0x0)){
+                        minimal[0] = min;
+                         minimal[1] = min_addr_count;
+                return minimal;
+            }else{
+            if (score.getUsercount(BNS[i]) < min || BNS[i]==address(0x0)){
               min = score.getUsercount(BNS[i]);
               min_addr_count = i;
-            }
+            }}
         }
         minimal[0] = min;
         minimal[1] = min_addr_count;
-      }
+      
     //         if(BNS.length > 1){
     //       score.getUsercount(BNS[0])
     //     min = Influencers[BNS[0]].followers;
@@ -185,27 +201,29 @@ contract Publish{
         selfdestruct(owner);
     }
 
-
-    function EffortPayment() public returns(uint256 [2] memory ){ 
+    function EffortPayment() public view returns(uint256 [2] memory ){ 
         // easy and boring proposal  all equals
                 uint256[2] memory AmmountAll;
-                uint256 AmmountSN;
                 uint256 Ammount;
-                AmmountAll[0]=SafeMath.div(SafeMath.div(SafeMath.mul(75,msg.value),100),BNS.length);
-                AmmountAll[1]= msg.value - Ammount;
+                AmmountAll[0]=SafeMath.div(SafeMath.div(SafeMath.mul(75,ammount_),100),BNS.length);
+                AmmountAll[1]= ammount_- Ammount;
                 return AmmountAll;
         }
     
-
-    function UserCollect(address _address) public {
+    function UserCollect() public {
         require(finished=true);
-        
-          require( Influencers[_address].top5 == true);
-          _address.transfer(Pammount_[0]);
-          collected += collected;
-          if(collected==BNS.length){
+        if (socialnet_adr==msg.sender){
+            socialnet_adr.transfer(Pammount_[1]);
+            collected += 1;
+        }else{
+            require( Influencers[msg.sender].top5 == true);
+          msg.sender.transfer(Pammount_[0]);
+          collected += 1;
+        }
+         if(collected==BNS.length){
               selfdestruct(owner);
           }
+          
         
     }
 
@@ -219,14 +237,15 @@ contract User {
     address public owner;
     address[] public Friends;
     
-    constructor (string name1,string ipfs_hash1) public payable {
+    constructor (string name1,string ipfs_hash1, SocialCore Score) public payable {
 
         owner = msg.sender;
         name = name1;
         ipfs_hash = ipfs_hash1;
         ishere = true;
+        Score.CreateUser(msg.sender,this) ;
     }
-
+    
     function  AddFriends(address addressf)public {Friends.push(addressf);}
     
 }
@@ -247,25 +266,32 @@ contract SocialCore {
                 sc_owner = msg.sender;
                 debug_gas_sc = gasleft();
     }
+    
+    function OwnerIs() public view  returns(address) {
+        //require is registered  
+        return sc_owner;
+    }
     function AddFriendsS(address addressf) public 
     {
         Users[msg.sender].Useradd.AddFriends(addressf);
         Users[msg.sender].counter += 1;
     }
     
-    function  CreateUser(string name, string ipfs_hash) public {
-        Users[msg.sender].Useradd = new User(name,ipfs_hash);
-        
-        
+    function  CreateUser(address user, User contractuser) public {
+        Users[user].Useradd = contractuser;
     }
     
-    function CreatePublish(string ipfs, address sc_owner1) public {
-        address Pub = new Publish(ipfs,sc_owner1,this);
-        Users[msg.sender].Publish.push(Pub);
+    function CreatePublish(address useradd, address publishadd) public {
+        // address Pub = new Publish(ipfs,sc_owner,this);
+        Users[useradd].Publish.push(publishadd);
     }
     
-    function getUsercount(address useradd) public returns(uint256) {
+    function getUsercount(address useradd) public view returns(uint256) {
         return Users[useradd].counter;
+    }
+    function getPublishUser() public view returns(address){
+        return Users[msg.sender].Publish[0];
     }
     
 }
+
