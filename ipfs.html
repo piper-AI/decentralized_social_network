@@ -84,6 +84,43 @@
           }
         });
       });
+// functions to work with solidity
+
+      var eth = new Eth(TestRPC.provider());
+      var el = function(id){ return document.querySelector(id); };
+      
+      // uncomment to enable MetaMask support:
+      if (typeof window.web3 !== 'undefined' && typeof window.web3.currentProvider !== 'undefined') {
+        eth.setProvider(window.web3.currentProvider);
+      } else {
+        eth.setProvider(provider); // set to TestRPC if not available
+      }
+      
+      var SocNetInst;
+
+      //shareEvent
+      el('#response').innerHTML = 'Share event...';
+      SocNetInst.shareEvent(function(err, result){
+        if (err) {
+          el('#response').innerHTML = 'Hmm, there was an error ' + String(err);
+        } else {
+          el('#response').innerHTML = 'Sharing event: ' + String(result);
+        }
+      });
+      //UserCollect
+
+      //AddFriendsS
+       el('#response').innerHTML = 'Add Friend...';
+      SocNetInst.AddFriendsS(el('#friend').value, function(err, result){
+        if (err) {
+          el('#response').innerHTML = 'Hmm, there was an error ' + String(err);
+        } else {
+          el('#response').innerHTML = 'Adding friend: ' + String(result);
+                    }
+      });
+      
+
+
     </script>
   </body>
 </html>
