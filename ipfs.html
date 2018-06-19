@@ -24,7 +24,15 @@
     <div id="addResponse"></div>
     <div id="lookupResponse"></div>
     <br />
-
+    <br /><br />
+    <div id="CreateUser"></div>
+    <hr />
+    <h4>Create User</h4>
+     <h4>Name</h4>
+    <textarea id="create_username" placeholder="Insert Name"></textarea><textarea id="create_lastname" placeholder="Insert lastname"></textarea>
+    <h4>Email</h4>
+    <textarea id="create_email" placeholder="Insert email"></textarea>
+    <button id="create_user">Create User</button>
 
 
     <script type="text/javascript" src="dist/ipfs-mini.js"></script>
@@ -127,7 +135,37 @@
           el('#response').innerHTML = 'Adding friend: ' + String(result);
                     }
       });
-      
+
+       el('#addJSONData').addEventListener('click', function(){
+        var isJSON = true;
+        var username = el('#create_username').value;
+        var lastname = el('#create_lastname').value;
+        var email = el('#create_email').value;
+        var user = [['username',username],['lastname', lastname],['email',email]];
+        //need hashes address and create ipfs directiories
+      });
+      // hash example
+      // user
+      /*{"firstName":"", 
+      "lastName":"",
+      "wallet":"",
+      "friends":"",
+      "email":"",
+      "posts":""}
+
+*/
+function CreateUser(columnsResult)
+{
+    var userData = {};
+    columnsResult.forEach(function(column) 
+    {
+        var columnName = column.metadata.colName;
+        jsonData[columnName] = column.value;
+    });
+    return userData;
+ }
+
+
 
 
     </script>
