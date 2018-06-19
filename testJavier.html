@@ -15,7 +15,7 @@
     <div class="container">
 
 <h1>Social Net</h1>
-0xd5cef745755b8a87768cc67e067f91d975c7b603
+0x4be22e31f395f3dafb0d9f5570978b226806c7e0
 <h2 id="instructor">User</h2>
 
 <div class="row">
@@ -34,7 +34,7 @@
 <div class="col-12">      
   
   <label for="name" class="col-lg-2 control-label">SOCIAL CONTRACT</label>
-  <input id="score" value="0x2b2cf035dab92b90092bcb903fa6ec4109b4d294">
+  <input id="score" value="0x4be22e31f395f3dafb0d9f5570978b226806c7e0">
 </div>
 
 <div class="col-12">
@@ -88,16 +88,18 @@
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
 <script>
   var el = function(id){ return document.querySelector(id); };
-  var web3;
-  if (typeof web3 !== 'undefined') {
-              web3 = new Web3(web3.currentProvider);
+  
+  if (typeof Web3 !== 'undefined') {
+              web3 = new Web3(Web3.currentProvider);
+              accounts = web3.eth.accounts;
           } else {
               // set the provider you want from Web3.providers
               web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));   
+              web3.eth.defaultAccount = web3.eth.accounts[0];
+              accounts =  web3.eth.accounts;
           }
     
-    web3.eth.defaultAccount = web3.eth.accounts[0];
-    accounts =  web3.eth.accounts;
+
     accounts.forEach(function(address){
           bidAccount.innerHTML += '<option value="' + address + '">'
             + address + '</option>';
