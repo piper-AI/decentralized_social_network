@@ -107,7 +107,16 @@
           el('#response').innerHTML = 'Sharing event: ' + String(result);
         }
       });
+
       //UserCollect
+      el('#response').innerHTML = 'User collecting payment';
+      SocNetInst.shareEvent(function(err, result){
+        if (err) {
+          el('#response').innerHTML = 'Hmm, there was an error ' + String(err);
+        } else {
+          el('#response').innerHTML = 'Payment collected: ' + String(result);
+        }
+      });
 
       //AddFriendsS
        el('#response').innerHTML = 'Add Friend...';
