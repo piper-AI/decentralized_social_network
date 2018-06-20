@@ -190,6 +190,7 @@ contract Publish{
     //     owner.transfer(PAmmount[1]);
     // }
 
+    function getIPFS() public view returns(string){return ipfs_content;}
     function AuthorStopCollect() public {
         require(msg.sender == owner);
         uint256[2] memory EachAmmount;
@@ -247,6 +248,7 @@ contract User {
         Score.CreateUser(msg.sender,this) ;
     }
     
+    function  getUserFriends(uint256 index)public view returns(address) {return Friends[index];}
     function  AddFriends(address addressf)public {Friends.push(addressf);}
     
 }
@@ -290,11 +292,16 @@ contract SocialCore {
     function getUsercount(address useradd) public view returns(uint256) {
         return Users[useradd].counter;
     }
-    function getPublishUser() public view returns(address){
-        return Users[msg.sender].Publish[0];
+    function getUserContract(address useradd) public view returns(address) {
+        return Users[useradd].Useradd;
+    }
+    function getlenPublishUser() public view returns(uint256){
+        return Users[msg.sender].Publish.length;
+    }
+    function getPublishUser(uint256 index) public view returns(address){
+        return Users[msg.sender].Publish[index];
     }
     
     
 }
-
 
