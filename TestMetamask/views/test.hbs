@@ -112,8 +112,8 @@
 <script>
   var el = function(id){ return document.querySelector(id); };
   var ipfs = new IPFS({ host: 'ipfs.infura.io', protocol: 'https' });
-    {{!-- if (typeof web3 !== 'undefined') --}}
-    if (false)
+    if (typeof web3 !== 'undefined')
+    {{!-- if (false) --}}
           {
               web3 = new Web3(web3.currentProvider);
           } else {
