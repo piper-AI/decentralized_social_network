@@ -1,38 +1,17 @@
 <!DOCTYPE html>
 <html>
-<head>
+  <head>
     <title>JavaScript file upload</title>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-    <script src="https://wzrd.in/standalone/buffer"></script>
+    <script src="buffer.js"></script>
+
     <script src="https://unpkg.com/ipfs-api@9.0.0/dist/index.js"
     integrity="sha384-5bXRcW9kyxxnSMbOoHzraqa7Z0PQWIao+cgeg327zit1hz5LZCEbIMx/LWKPReuB"
     crossorigin="anonymous"></script>
   </head>
-  <script type="text/javascript">
-    function upload() {
-      const reader = new FileReader();
-      reader.onloadend = function() {
-        const ipfs = window.IpfsApi('localhost', 5001) // Connect to IPFS
-        const buf = buffer.Buffer(reader.result) // Convert data into buffer
-        ipfs.files.add(buf, (err, result) => { // Upload buffer to IPFS
-          if(err) {
-            console.error(err)
-            return
-          }
-          let url = `https://ipfs.io/ipfs/${result[0].hash}`
-          console.log(`Url --> ${url}`)
-          document.getElementById("url").innerHTML= url
-          document.getElementById("url").href= url
-          document.getElementById("output").src = url
-        })
-      }
-      const photo = document.getElementById("photo");
-      reader.readAsArrayBuffer(photo.files[0]); // Read Provided File
-    }
-  </script>
 
   <body>
-    <h2>Social Network button test</h2>
+ <h2>Social Network button test</h2>
     <h3>Browser Example</h3>
     <hr />
     <h4>Get IPFS Hash Data<h4>
@@ -66,6 +45,7 @@
     <textarea id="create_email" placeholder="Insert email"></textarea>
     <button id="create_user">Create User</button>
 
+
     <form action="/">
       <fieldset>
         <legend>Upload photo</legend>
@@ -73,10 +53,14 @@
         <button type="button" onclick="upload()">Upload</button>
       </fieldset>
     </form>
+    </br>
+    </br>
+    <a id="url"></a>
+    </br>
+    </br>
+    <img id="output">
 
-
-    
-    <script type="text/javascript" src="dist/ipfs-mini.js"></script>
+  <script type="text/javascript" src="dist/ipfs-mini.js"></script>
     <script type="text/javascript">
       var el = function(id){ return document.querySelector(id); };
       var ipfs = new IPFS({ host: 'ipfs.infura.io', protocol: 'https' });
@@ -196,19 +180,19 @@
 
 function CreateUser()
 {
-	var create_user = {"username":name1,"wallet":$('#bidAccount').val(),"email":email};
-	var user = JSON.stringify(create_user);
-	ipfs.addJSON(inputData, (err, result) => {
-    	if (err) {
+  var create_user = {"username":name1,"wallet":$('#bidAccount').val(),"email":email};
+  var user = JSON.stringify(create_user);
+  ipfs.addJSON(inputData, (err, result) => {
+      if (err) {
             console.log(String(err));
           } else {
             console.log(String(result));
           }});
-	user_ipfs = result;
+  user_ipfs = result;
  }
 
 function Login(){
-	ipfs.catJSON(ipfs_hash1, (err, result) => {
+  ipfs.catJSON(ipfs_hash1, (err, result) => {
           if (err) {
             console.log(String(err));
           } else {
@@ -216,11 +200,30 @@ function Login(){
           }});
     return result;
 }
-
-
-
-
-
     </script>
+
   </body>
+
+    <script type="text/javascript">
+    function upload() {
+      const reader = new FileReader();
+      reader.onloadend = function() {
+        const ipfs = window.IpfsApi('localhost', 5001) // Connect to IPFS
+        const buf = buffer.Buffer(reader.result) // Convert data into buffer
+        ipfs.files.add(buf, (err, result) => { // Upload buffer to IPFS
+          if(err) {
+            console.error(err)
+            return
+          }
+          let url = `https://ipfs.io/ipfs/${result[0].hash}`
+          console.log(`Url --> ${url}`)
+          document.getElementById("url").innerHTML= url
+          document.getElementById("url").href= url
+          document.getElementById("output").src = url
+        })
+      }
+      const photo = document.getElementById("photo");
+      reader.readAsArrayBuffer(photo.files[0]); // Read Provided File
+    }
+  </script>
 </html>
