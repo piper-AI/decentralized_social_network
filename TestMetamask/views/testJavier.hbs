@@ -105,6 +105,10 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
  
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+// IPFS include
+<script type="text/javascript" src="dist/ipfs-mini.js"></script>
+
+
 <script>
   var el = function(id){ return document.querySelector(id); };
     {{!-- if (typeof web3 !== 'undefined') --}}
@@ -190,7 +194,9 @@ var userContract = web3.eth.contract([{"constant":true,"inputs":[],"name":"name"
 <script>
 var publishContract = web3.eth.contract([{"constant":true,"inputs":[],"name":"shares","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[],"name":"shareEvent","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"getBNS","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[],"name":"UserCollect","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"get_min_inf","outputs":[{"name":"","type":"uint256[2]"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"gas_ammount_to_stop","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"getIPFS","outputs":[{"name":"","type":"string"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"","type":"address"}],"name":"Influencers","outputs":[{"name":"top5","type":"bool"},{"name":"shared","type":"bool"},{"name":"followers","type":"uint256"},{"name":"collected","type":"bool"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"","type":"uint256"}],"name":"Pammount_","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"","type":"uint256"}],"name":"BNS","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[],"name":"Finish","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"collected","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[],"name":"AuthorStopCollect","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"gas_ammount_to_end","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"owner","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"EffortPayment","outputs":[{"name":"","type":"uint256[2]"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"addressu","type":"address"}],"name":"getContent","outputs":[{"name":"","type":"string"},{"name":"","type":"bool"},{"name":"","type":"bool"},{"name":"","type":"bool"},{"name":"","type":"bool"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"debug_gas","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"finished","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"ammount_","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"inputs":[{"name":"ipfs_content1","type":"string"},{"name":"socialcore","type":"address"}],"payable":true,"stateMutability":"payable","type":"constructor"}]);
  $("#buttonPublish").on('click' ,function() {
-    var ipfs_content1 = $('#publisher').val() ;
+    
+    //var ipfs_content1 = $('#publisher').val() ;
+    var ipfs_content1 = publish_ipfs_text($('#publisher').val());
    
     var publish = publishContract.new(
       ipfs_content1,
@@ -483,6 +489,18 @@ var Friends=[];
 
       });      
  
+// IPFS
+function publish_ipfs_text(input){
+  var isJSON = false;
+  ipfs.add(input, (err, result) => {
+  if (err) {
+    console.log('Hmm.. there was an error: ' + String(err));
+  } else {
+    console.log('published: ' + result);
+  }});
+  return result;
+}  
+
 
 
 </script>
