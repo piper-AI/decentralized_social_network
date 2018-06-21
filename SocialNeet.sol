@@ -60,6 +60,7 @@ contract Publish{
        bool top5;
        bool shared;
        uint256 followers;
+       bool collected;
     }
 
     mapping(address => Influencer ) public Influencers;
@@ -189,7 +190,8 @@ contract Publish{
     //     require(owner==_address);
     //     owner.transfer(PAmmount[1]);
     // }
-
+    function getContent(address addressu) public view returns(string,bool,bool,bool,bool){return (ipfs_content,finished,Influencers[addressu].top5,Influencers[addressu].shared,Influencers[addressu].collected);}
+    function getIPFS() public view returns(string){return ipfs_content;}
     function AuthorStopCollect() public {
         require(msg.sender == owner);
         uint256[2] memory EachAmmount;
@@ -213,7 +215,9 @@ contract Publish{
         }
     
     function UserCollect() public {
-        require(finished=true);
+        require(Influencers[msg.sender].collected==false && finished==true);
+        // require(finished=true);
+        
         if (socialnet_adr==msg.sender){
             socialnet_adr.transfer(Pammount_[1]);
             collected += 1;
@@ -221,6 +225,7 @@ contract Publish{
             require( Influencers[msg.sender].top5 == true);
           msg.sender.transfer(Pammount_[0]);
           collected += 1;
+          Influencers[msg.sender].collected=true;
         }
          if(collected==(BNS.length+1)){
               selfdestruct(owner);
@@ -247,6 +252,11 @@ contract User {
         Score.CreateUser(msg.sender,this) ;
     }
     
+    function getName() public view returns(string) {
+        return name;
+    }
+    
+    function  getUserFriends(uint256 index)public view returns(address) {return Friends[index];}
     function  AddFriends(address addressf)public {Friends.push(addressf);}
     
 }
@@ -290,11 +300,16 @@ contract SocialCore {
     function getUsercount(address useradd) public view returns(uint256) {
         return Users[useradd].counter;
     }
-    function getPublishUser() public view returns(address){
-        return Users[msg.sender].Publish[0];
+    function getUserContract(address useradd) public view returns(address) {
+        return Users[useradd].Useradd;
+    }
+    function getlenPublishUser(address addressu) public view returns(uint256){
+        return Users[addressu].Publish.length;
+    }
+    function getPublishUser(address addressu,uint256 index) public view returns(address){
+        return Users[addressu].Publish[index];
     }
     
     
 }
-
 
