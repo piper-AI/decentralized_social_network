@@ -111,6 +111,18 @@
 </br>
 </br>
 <img id="output">
+</br>
+</br>
+<h2>Include Photo to Post</h2>
+<input type="file" name="postphoto" id="postphoto">
+<button type="button" onclick="uploadpostphoto()">Upload</button>
+<img id="postphotooutput">
+<a id="url2"></a>
+</br>
+</br>
+
+
+
 
 
 <script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js/dist/web3.min.js"></script>
@@ -129,6 +141,7 @@
 <script>
   var el = function(id){ return document.querySelector(id); };
   var ipfs = new IPFS({ host: 'ipfs.infura.io', protocol: 'https' });
+  var postphotourl = "";
     //{{!-- if (typeof web3 !== 'undefined') --}}
     if (false)
           {
@@ -182,8 +195,7 @@ var SocialContract = web3.eth.contract([{"constant":true,"inputs":[],"name":"Own
           });
   
   
-  </script>
-<script>
+
 
 var userContract = web3.eth.contract([{"constant":true,"inputs":[],"name":"name","outputs":[{"name":"","type":"string"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"index","type":"uint256"}],"name":"getUserFriends","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"getName","outputs":[{"name":"","type":"string"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"addressf","type":"address"}],"name":"AddFriends","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[{"name":"","type":"uint256"}],"name":"Friends","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"owner","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"ishere","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"addressf","type":"address"}],"name":"FExists","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"view","type":"function"},{"inputs":[{"name":"name1","type":"string"},{"name":"ipfs_hash1","type":"string"},{"name":"Score","type":"address"}],"payable":true,"stateMutability":"payable","type":"constructor"}]); $("#buttonUser").on('click' ,function() {
               var user = userContract.new(
@@ -203,12 +215,12 @@ var userContract = web3.eth.contract([{"constant":true,"inputs":[],"name":"name"
             })
             
         });
-</script>
 
-<script>
 var publishContract = web3.eth.contract([{"constant":true,"inputs":[],"name":"shares","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[],"name":"shareEvent","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"getBNS","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[],"name":"UserCollect","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"get_min_inf","outputs":[{"name":"","type":"uint256[2]"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"gas_ammount_to_stop","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"getIPFS","outputs":[{"name":"","type":"string"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"","type":"address"}],"name":"Influencers","outputs":[{"name":"top5","type":"bool"},{"name":"shared","type":"bool"},{"name":"followers","type":"uint256"},{"name":"collected","type":"bool"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"","type":"uint256"}],"name":"Pammount_","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"","type":"uint256"}],"name":"BNS","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[],"name":"Finish","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"collected","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[],"name":"AuthorStopCollect","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"gas_ammount_to_end","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"owner","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"EffortPayment","outputs":[{"name":"","type":"uint256[2]"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"addressu","type":"address"}],"name":"getContent","outputs":[{"name":"","type":"string"},{"name":"","type":"bool"},{"name":"","type":"bool"},{"name":"","type":"bool"},{"name":"","type":"bool"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"debug_gas","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"finished","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"ammount_","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"inputs":[{"name":"ipfs_content1","type":"string"},{"name":"socialcore","type":"address"}],"payable":true,"stateMutability":"payable","type":"constructor"}]);
  $("#buttonPublish").on('click' ,function() {
-    ipfs.add($('#publisher').val(), (err, result) => {
+  var create_post_hash = {"message":$('#publisher').val(),"image":postphotourl};
+  var post_hash = JSON.stringify(create_post_hash);
+    ipfs.addJSON(post_hash, (err, result) => {
         if (err) {
             console.log('Hmm.. there was an error: ' + String(err));
         } else {
@@ -229,6 +241,7 @@ var publishContract = web3.eth.contract([{"constant":true,"inputs":[],"name":"sh
                 }
             })
             console.log('published: ' + result);
+            console.log('postphotourl: ' + postphotourl);
         }
   });
     //var ipfs_content1 = $('#publisher').val() ;
@@ -427,7 +440,7 @@ $('#updatePublished').on('click',function(e,res){
                             publishContract.at(res2).getContent.call($('#bidacc').val(),function(e22,res22){
                             if(!e22){
                                     console.log(res22);
-                                    ipfs.cat(res22[0], (err, result) => {
+                                    ipfs.catJSON(res22[0], (err, result) => {
                                         if (err) {
                                             console.log(err);
                                         } else {                                              
@@ -440,8 +453,11 @@ $('#updatePublished').on('click',function(e,res){
                                             obj.Ended = res22[1];
                                             publishall.push(obj);
                                             string2 =  'id_'+res2.toString();
-                                            console.log(res22[2]);                                            
+                                            console.log(res22[2]);               
+                                            var temp = JSON.stringify(result[0])                             
                                             $("#PublishStory").html($("#PublishStory").html()+'<div>'+obj.fname+'</div>'+'<div>'+obj.ipfscontent+'</div>');
+                                            //$("#PublishStory").html($("#PublishStory").html()+'<div>'+obj.fname+'</div>'+'<div>'+temp.message+'</div>');
+
                                             if(!obj.already_influenced){
                                                 $("#PublishStory").html($("#PublishStory").html()+'<button id='+string2+' onclick="influence('+string2+')">Influence</button>');
                                             } else { 
@@ -483,11 +499,6 @@ function publish_ipfs_text(input){
 }  
 
 
-
-</script>
-
-<script type="text/javascript">
-
 function upload() {
       const reader = new FileReader();
       reader.onloadend = function() {
@@ -509,6 +520,27 @@ function upload() {
       reader.readAsArrayBuffer(photo.files[0]); // Read Provided File
 }
 
+function uploadpostphoto() {
+      const reader = new FileReader();
+      reader.onloadend = function() {
+        const ipfs = window.IpfsApi('localhost', 5001) // Connect to IPFS
+        const buf = buffer.Buffer(reader.result) // Convert data into buffer
+        ipfs.files.add(buf, (err, result) => { // Upload buffer to IPFS
+          if(err) {
+            console.error(err)
+            return
+          }
+          url2 = `https://ipfs.io/ipfs/${result[0].hash}`
+          console.log(`Url --> ${url2}`);
+          postphotourl = url2;
+          document.getElementById("url2").innerHTML= url2;
+          document.getElementById("url2").href= url2;
+          document.getElementById("url2").src = url2;
+        })
+      }
+      const photo = document.getElementById("postphoto");
+      reader.readAsArrayBuffer(photo.files[0]); // Read Provided File
+}
 
 
 </script>
