@@ -7,7 +7,7 @@
     <meta name="author" content="">
     <link rel="icon" href="../../../../favicon.ico">
 
-    <title>Pricing example for Bootstrap</title>
+    <title>Ethereum Social Network project</title>
 
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
@@ -30,22 +30,113 @@
   </head>
 
   <body>
+      <style type="text/css">
+        #popupbox{
+        margin: 0; 
+        margin-left: 40%; 
+        margin-right: 40%;
+        margin-top: 100px; 
+        padding-top: 10px; 
+        width: 450px; 
+        height: 250px; 
+        position: absolute; 
+        background: rgb(212, 209, 209); 
+        border: solid #000000 2px; 
+        z-index: 9; 
+        font-family: arial; 
+        visibility: hidden; 
+        }
+        #loginbox{
+        margin: 0; 
+        margin-left: 40%; 
+        margin-right: 40%;
+        margin-top: 100px; 
+        padding-top: 10px; 
+        width: 450px; 
+        height: 250px; 
+        position: absolute; 
+        background: rgb(212, 209, 209); 
+        border: solid #000000 2px; 
+        z-index: 9; 
+        font-family: arial; 
+        visibility: hidden; 
+        }
+        #postbox{
+        margin: 0; 
+        margin-left: 20%; 
+        margin-right: 20%;
+        margin-top: 10%; 
+        padding-top: 10px; 
+        width: 50%; 
+        height: 500px; 
+        position: absolute; 
+        background: rgb(212, 209, 209); 
+        border: solid #000000 2px; 
+        z-index: 9; 
+        font-family: arial; 
+        visibility: hidden; 
+        }
+        </style>
+      <div id="popupbox"> 
+          <center>Create User</center>
+          <form name="create_user" action="" method="post">
+          <center>Username:</center>
+          <center><input name="username" size="48" /></center>
+          <center>Wallet ID:</center>
+          <center><select id="bidAccount" onclick="tocopy()"> </select></center>
+          <center><input id="bidacc" size="48"  readonly><center></center>
+          <center><input type="submit" name="submit" value="Create User" /></center>
+          </form>
+          <br />
+          <center><a href="javascript:create_user('hide');">close</a></center> 
+      </div> 
+      <div id="loginbox"> 
+          <center>Create User</center>
+          <form name="login" action="" method="post">
+          <center>Username:</center>
+          <center><input name="username" size="48" /></center>
+          <center>Wallet ID:</center>
+          </form>
+          <br />
+          <center><a href="javascript:login('hide');">close</a></center> 
+      </div> 
+      <div id="postbox"> 
+          <center>Post Message</center>
+          <form name="post_message" action="" method="post">
+          <center><textarea id="publisher" name="textarea1"rows="10" cols="100"placeholder=""></textarea></center>
+          <label for="name" class="col-lg-2 control-label">Add picture to Post</label>
+          <input type="file" name="postphoto" id="postphoto">
+          <button type="button" onclick="uploadpostphoto()">Upload</button>
+          <img id="postphotooutput222">
+          <a id="url2"></a>
+          <label for="name" class="col-lg-2 control-label">Ether Ammount</label>
+          <input id="publisherEth" type="text">
+          <button id="buttonPublish">Publish</button>
+          </form>
+          <br />
+          <center><a href="javascript:post_message('hide');">close</a></center> 
+      </div> 
+  <div class="navbar fixed-top d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom box-shadow">
+    <h5 class="my-0 mr-md-auto font-weight-normal">Eth Social Network</h5>
+    <a class="btn btn-outline-primary" href="javascript:post_message('show');">Post</a>
+    <nav class="my-2 my-md-0 mr-md-3">
+          <ul class="nav nav-pills">
+          <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">Followers</a>
+                  <div class="dropdown-menu">
+                    <a class="dropdown-item" href="#">Link 1</a>
+                  </div>
+                </li>
+      <li class="nav-item dropdown">
+        <div>
+          <a class="btn btn-outline-primary" href="javascript:create_user('show');">Sign up</a>
+          <a class="btn btn-outline-primary" href="javascript:login('show')";>Login</a>
+        </div>
+      </li>
 
-    <div class="navbar fixed-top d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom box-shadow">
-      <h5 class="my-0 mr-md-auto font-weight-normal">SocialGrid</h5>
-      <nav class="my-2 my-md-0 mr-md-3">
-            <ul class="nav nav-pills">
-            <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">Followers</a>
-                    <div class="dropdown-menu">
-                      <a class="dropdown-item" href="#">Link 1</a>
-                    </div>
-                  </li>
-        <li class="nav-item dropdown"> <a class="btn btn-outline-primary" href="#">Sign up</a></li>  
-       </ul>
-      </nav>
-      
-    </div>
+      </ul>
+    </nav>
+  </div>
 
 
 
@@ -103,7 +194,9 @@
             <small class="d-block mb-3 text-muted">&copy; 2017-2018</small>
           </div>
           <div class="col-6 col-md">
-            <h5>Git</h5>
+            <a aria-label="Homepage" title="GitHub" class="footer-octicon" href="https://github.com/jcarrizobrass/decentralized_social_network">
+              <svg height="24" class="octicon octicon-mark-github" viewBox="0 0 16 16" version="1.1" width="24" aria-hidden="true"><path fill-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"></path></svg>
+            </a>
           </div>
 
         </div>
@@ -112,7 +205,7 @@
 
 
     <div class="flextabs fixed-bot d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom box-shadow">
-      <h5 class="my-0 mr-md-auto font-weight-normal">SocialGrid</h5>
+      <h5 class="my-0 mr-md-auto font-weight-normal">Eth Social Network</h5>
       <nav class="my-2 my-md-0 mr-md-3">
             <ul class="nav nav-pills">
             <li class="nav-item dropdown">
@@ -121,15 +214,55 @@
                       <a class="dropdown-item" href="#">Link 1</a>
                     </div>
                   </li>
-        <li class="nav-item dropdown"> <a class="btn btn-outline-primary" href="#">Sign up</a></li>  
+        <li class="nav-item dropdown">
+            <div>
+              <a class="btn btn-outline-primary" href="javascript:create_user('show');">Sign up</a>
+              <a class="btn btn-outline-primary" href="javascript:login('show')";>Login</a>
+            </div>
+          </li>
+
        </ul>
       </nav>
     </div>
+    
+    
+
+
+    <script language="JavaScript" type="text/javascript">
+    function login(showhide){
+    if(showhide == "show"){
+        document.getElementById('loginbox').style.visibility="visible";
+    }else if(showhide == "hide"){
+        document.getElementById('loginbox').style.visibility="hidden"; 
+    }
+    }
+    function create_user(showhide){
+    if(showhide == "show"){
+        document.getElementById('popupbox').style.visibility="visible";
+    }else if(showhide == "hide"){
+        document.getElementById('popupbox').style.visibility="hidden"; 
+    }
+    }
+    function post_message(showhide){
+    if(showhide == "show"){
+        document.getElementById('postbox').style.visibility="visible";
+    }else if(showhide == "hide"){
+        document.getElementById('postbox').style.visibility="hidden"; 
+    }
+    }
+    </script>
+    
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
-    <script>
+    <script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js/dist/web3.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/ipfs-mini@1.1.2/dist/ipfs-mini.js"></script>
+  <script src="index.js"></script>
 
-    </script>
+
   </body>
 </html>
