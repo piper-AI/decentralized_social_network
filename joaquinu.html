@@ -66,20 +66,18 @@
 <div class="col-12">
     <label for="name" class="col-lg-2 control-label">IPFS message</label>
     <input id="publisher" type="text">
+    <label for="name" class="col-lg-2 control-label">Add picture to Post</label>
+    <input type="file" name="postphoto" id="postphoto">
+    <button type="button" onclick="uploadpostphoto()">Upload</button>
+    <img id="postphotooutput222">
+    <a id="url2"></a>
     <label for="name" class="col-lg-2 control-label">Ether Ammount</label>
     <input id="publisherEth" type="text">
-<button id="buttonPublish">Publish</button>
-
-  
+    <button id="buttonPublish">Publish</button>
 </div>
-
-
 <label for="name" class="col-lg-2 control-label">Influence</label>
-        
         <input id="Influenceid" type="text">
 <button id="buttonInfluence">Influence</button>
-
-
 
 <label for="name" class="col-lg-2 control-label">Watch Updates</label>
 <button id="buttonUpdate">Refresh Friends</button>
@@ -87,19 +85,22 @@
 <button id="buttonFoFUpdate">RecommendFriends</button>
 </div>
 <div class="container">
-    <div class="row">
-        
-        <div id="Myfriends"class="col">asdasd
+    <div class="row">        
+        <div id="Myfriends"class="col">
         </div>
-        <div id="PublishStory"class="col">asdasd
+        <div id="PublishStory"class="col">
+            
         </div>
-        <div id="Mightknow"class="col">asdasd
+        <div id="Mightknow"class="col">
         </div>
+        <img id="postphotooutput">
 
     </div>
 </div>
 
 </div>
+</br>
+</br>
 <form action="/">
     <fieldset>
       <legend>Upload photo</legend>
@@ -108,33 +109,17 @@
     </fieldset>
 </form>
 <a id="url"></a>
-</br>
-</br>
 <img id="output">
 </br>
 </br>
-<h2>Include Photo to Post</h2>
-<input type="file" name="postphoto" id="postphoto">
-<button type="button" onclick="uploadpostphoto()">Upload</button>
-<img id="postphotooutput">
-<a id="url2"></a>
-</br>
-</br>
-
-
 
 
 
 <script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js/dist/web3.min.js"></script>
-<script> 
-</script>
-
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
- 
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
-// IPFS include
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/ipfs-mini@1.1.2/dist/ipfs-mini.js"></script>
 
 
@@ -224,7 +209,7 @@ var publishContract = web3.eth.contract([{"constant":true,"inputs":[],"name":"sh
         if (err) {
             console.log('Hmm.. there was an error: ' + String(err));
         } else {
-            console.log('adentro');
+            //console.log('adentro');
             var publish = publishContract.new(
             result,
             $('#score').val(),
@@ -234,7 +219,7 @@ var publishContract = web3.eth.contract([{"constant":true,"inputs":[],"name":"sh
                 gas: '4700000',
                 value: web3.toWei($('#publisherEth').val(), 'ether')
             }, function (e, contract){
-                console.log(e, contract);
+                //console.log(e, contract);
                 if (typeof contract.address !== 'undefined') {
                     $('#Influenceid').val(contract.address);
                     console.log('Contract mined! address: ' + contract.address + ' transactionHash: ' + contract.transactionHash);
@@ -246,7 +231,7 @@ var publishContract = web3.eth.contract([{"constant":true,"inputs":[],"name":"sh
   });
     //var ipfs_content1 = $('#publisher').val() ;
     var ipfs_content11 = publish_ipfs_text($('#publisher').val());
-    console.log("obtained " + ipfs_content11)
+    //console.log("obtained " + ipfs_content11)
     });
 
 
@@ -454,9 +439,13 @@ $('#updatePublished').on('click',function(e,res){
                                             publishall.push(obj);
                                             string2 =  'id_'+res2.toString();
                                             console.log(res22[2]);               
-                                            var temp = JSON.stringify(result[0])                             
-                                            $("#PublishStory").html($("#PublishStory").html()+'<div>'+obj.fname+'</div>'+'<div>'+obj.ipfscontent+'</div>');
-                                            //$("#PublishStory").html($("#PublishStory").html()+'<div>'+obj.fname+'</div>'+'<div>'+temp.message+'</div>');
+                                            var post = JSON.parse(result);
+                                            console.log("post: " +post.message+"image: "+post.image);
+                                            var image = document.getElementById("postphotooutput"); 
+                                            image.src=post.image;        
+                                                                 
+                                            //("#PublishStory").html($("#PublishStory").html()+'<div>'+obj.fname+'</div>'+'<div>'+obj.ipfscontent+'</div>');
+                                            $("#PublishStory").html($("#PublishStory").html()+'<div>'+obj.fname+'</div>'+'<div>'+post.message+'</div>');
 
                                             if(!obj.already_influenced){
                                                 $("#PublishStory").html($("#PublishStory").html()+'<button id='+string2+' onclick="influence('+string2+')">Influence</button>');
