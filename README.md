@@ -1,7 +1,7 @@
 # Decentralized_social_network
 Decentralized Social Network Project
 
-To test the project, we set it up to runs over ganache. The Debug mode use the wallet on ganache to create a user. we recommend to run it with the console on one side.
+To test the project, we set it up to runs over ganache. The Debug mode use the wallet on ganache to create a user. We recommend to run it with the console on one side.
 
 
 Steps to set up the test mode:
