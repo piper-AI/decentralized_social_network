@@ -1,7 +1,7 @@
   var el = function(id){ return document.querySelector(id); };
   var ipfs = new IPFS({ host: 'ipfs.infura.io', protocol: 'https' });
   var postphotourl = "";
-    //{{!-- if (typeof web3 !== 'undefined') --}}
+
     if (false)
           {
               web3 = new Web3(web3.currentProvider);
@@ -36,7 +36,7 @@ var SocialContract = web3.eth.contract([{"constant":true,"inputs":[],"name":"Own
       }
   });
   });
-//  {{!-- var SocialContract = SocialContract.at('0x2b2cf035dab92b90092bcb903fa6ec4109b4d294'); --}}
+
 
 
   $("#buttonFriend").on('click' ,function() {
@@ -56,7 +56,8 @@ var SocialContract = web3.eth.contract([{"constant":true,"inputs":[],"name":"Own
   
 
 
-var userContract = web3.eth.contract([{"constant":true,"inputs":[],"name":"name","outputs":[{"name":"","type":"string"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"index","type":"uint256"}],"name":"getUserFriends","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"getName","outputs":[{"name":"","type":"string"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"addressf","type":"address"}],"name":"AddFriends","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[{"name":"","type":"uint256"}],"name":"Friends","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"owner","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"ishere","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"addressf","type":"address"}],"name":"FExists","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"view","type":"function"},{"inputs":[{"name":"name1","type":"string"},{"name":"ipfs_hash1","type":"string"},{"name":"Score","type":"address"}],"payable":true,"stateMutability":"payable","type":"constructor"}]); $("#buttonUser").on('click' ,function() {
+var userContract = web3.eth.contract([{"constant":true,"inputs":[],"name":"name","outputs":[{"name":"","type":"string"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"index","type":"uint256"}],"name":"getUserFriends","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"getName","outputs":[{"name":"","type":"string"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"addressf","type":"address"}],"name":"AddFriends","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[{"name":"","type":"uint256"}],"name":"Friends","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"owner","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"ishere","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"addressf","type":"address"}],"name":"FExists","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"view","type":"function"},{"inputs":[{"name":"name1","type":"string"},{"name":"ipfs_hash1","type":"string"},{"name":"Score","type":"address"}],"payable":true,"stateMutability":"payable","type":"constructor"}]); 
+$("#buttonUser").on('click' ,function() {
               var user = userContract.new(
                 $("#name").val(),
                  $("#ipfshash").val(),
@@ -83,7 +84,7 @@ var publishContract = web3.eth.contract([{"constant":true,"inputs":[],"name":"sh
         if (err) {
             console.log('Hmm.. there was an error: ' + String(err));
         } else {
-            //console.log('adentro');
+
             var publish = publishContract.new(
             result,
             $('#score').val(),
@@ -93,7 +94,7 @@ var publishContract = web3.eth.contract([{"constant":true,"inputs":[],"name":"sh
                 gas: '4700000',
                 value: web3.toWei($('#publisherEth').val(), 'ether')
             }, function (e, contract){
-                //console.log(e, contract);
+               
                 if (typeof contract.address !== 'undefined') {
                     $('#Influenceid').val(contract.address);
                     console.log('Contract mined! address: ' + contract.address + ' transactionHash: ' + contract.transactionHash);
@@ -103,9 +104,8 @@ var publishContract = web3.eth.contract([{"constant":true,"inputs":[],"name":"sh
             console.log('postphotourl: ' + postphotourl);
         }
   });
-    //var ipfs_content1 = $('#publisher').val() ;
-    var ipfs_content11 = publish_ipfs_text($('#publisher').val());
-    //console.log("obtained " + ipfs_content11)
+
+    
     });
 
 
@@ -217,9 +217,9 @@ $('#buttonFoFUpdate').on('click', function (){
                                 }
                             });
                         }
-                        // {{!-- console.log(result2); --}}
+                        console.log(result2);
                     } else{
-                        //{{!-- console.log(error2); --}}
+                         console.log(error2);
                     }
                 });        
                 console.log(result1);
@@ -271,9 +271,9 @@ $('#buttonUpdate').on('click', function (){
                             }
                         });
                     }
-                    //{{!-- console.log(result2); --}}
+                    console.log(result2);
                 } else {
-                    //{{!-- console.log(error2); --}}
+                    console.log(error2);
                 }
             });
             console.log(result1);
@@ -314,21 +314,28 @@ $('#updatePublished').on('click',function(e,res){
                                             string2 =  'id_'+res2.toString();
                                             console.log(res22[2]);               
                                             var post = JSON.parse(result);
-                                            console.log("post: " +post.message+"image: "+post.image);
-                                            var image = document.getElementById("postphotooutput"); 
-                                            image.src=post.image;        
-                                                                 
-                                            //("#PublishStory").html($("#PublishStory").html()+'<div>'+obj.fname+'</div>'+'<div>'+obj.ipfscontent+'</div>');
-                                            $("#PublishStory").html($("#PublishStory").html()+'<div>'+obj.fname+'</div>'+'<div>'+post.message+'</div>');
+                                            // console.log("post: " +post.message+"image: "+post.image);
+                                          
+                                            // var image = document.getElementById("postphotooutput"); 
+                                            // image.src=post.image;        
 
+                                            if(!post.image){
+                                                htmltemplate='        <div class="row  justify-content-center">  <div class="card-deck text-center justify-content-center" style="width:100%;"> <div class="card mb-12 box-shadow"> <div class="card-header"> <h4 class="my-0 font-weight-normal">'+obj.fname + '</h4> </div><img class="card-img-top" src="'+post.image+'" alt="Card image cap"> <div class="card-body"> <ul class="list-unstyled mt-3 mb-4"> <li> ' + post.message+ '</li> </ul>';
+                                            }
+                                            else{
+                                                htmltemplate='        <div class="row  justify-content-center">  <div class="card-deck text-center justify-content-center"> <div class="card mb-12 box-shadow"> <div class="card-header"> <h4 class="my-0 font-weight-normal">'+obj.fname + '</h4> </div> <div class="card-body"> <ul class="list-unstyled mt-3 mb-4"> <li> ' + post.message+ '</li> </ul>';
+                                            }
+                                            
                                             if(!obj.already_influenced){
-                                                $("#PublishStory").html($("#PublishStory").html()+'<button id='+string2+' onclick="influence('+string2+')">Influence</button>');
+                                               htmltemplate = htmltemplate +'<button id='+string2+' class="btn btn-lg btn-block btn-outline-primary"  style="float:right" onclick="influence('+string2+')">Influence</button> </div> </div> </div></div>';
                                             } else { 
                                                 console.log(obj.alreadycollected);
                                                 if(obj.collectable && obj.Ended && !obj.alreadycollected){
-                                                    $("#PublishStory").html($("#PublishStory").html()+'<button id='+string2+' onclick="collectable('+string2+')">Collect me!</button>');
+                                                   htmltemplate = htmltemplate +'<button id='+string2+'  class="btn btn-lg btn-block btn-outline-primary"  style="float:right" onclick="collectable('+string2+')">Collect me!</button></div> </div> </div></div>';
                                                 }
                                             }
+
+                                            $("#PublishStory").html($("#PublishStory").html()+ htmltemplate);
                                         }
                                     });
                                 } else {

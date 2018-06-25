@@ -10,7 +10,7 @@ app.set('view engine','hbs');
 // app.use(express.static(publicPath));
 
 app.get('/', function (req, res) {
-  res.render('testJavier.hbs')
+  res.render('testJavier12.hbs')
 })
 
 

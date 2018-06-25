@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="icon" href="../../../../favicon.ico">
 
     <title>Ethereum Social Network project</title>
 
@@ -30,107 +29,132 @@
   </head>
 
   <body>
-      <style type="text/css">
-        #popupbox{
-        margin: 0; 
-        margin-left: 40%; 
-        margin-right: 40%;
-        margin-top: 100px; 
-        padding-top: 10px; 
-        width: 450px; 
-        height: 250px; 
-        position: absolute; 
-        background: rgb(212, 209, 209); 
-        border: solid #000000 2px; 
-        z-index: 9; 
-        font-family: arial; 
-        visibility: hidden; 
-        }
-        #loginbox{
-        margin: 0; 
-        margin-left: 40%; 
-        margin-right: 40%;
-        margin-top: 100px; 
-        padding-top: 10px; 
-        width: 450px; 
-        height: 250px; 
-        position: absolute; 
-        background: rgb(212, 209, 209); 
-        border: solid #000000 2px; 
-        z-index: 9; 
-        font-family: arial; 
-        visibility: hidden; 
-        }
-        #postbox{
-        margin: 0; 
-        margin-left: 20%; 
-        margin-right: 20%;
-        margin-top: 10%; 
-        padding-top: 10px; 
-        width: 50%; 
-        height: 500px; 
-        position: absolute; 
-        background: rgb(212, 209, 209); 
-        border: solid #000000 2px; 
-        z-index: 9; 
-        font-family: arial; 
-        visibility: hidden; 
-        }
-        </style>
-      <div id="popupbox"> 
-          <center>Create User</center>
-          <form name="create_user" action="" method="post">
-          <center>Username:</center>
-          <center><input name="username" size="48" /></center>
-          <center>Wallet ID:</center>
-          <center><select id="bidAccount" onclick="tocopy()"> </select></center>
-          <center><input id="bidacc" size="48"  readonly><center></center>
-          <center><input type="submit" name="submit" value="Create User" /></center>
-          </form>
-          <br />
-          <center><a href="javascript:create_user('hide');">close</a></center> 
+ 
+<!-- Modal -->
+<div id="popupbox" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+  
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+            <h4 class="modal-title">Create User</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+   
+          
+        </div>
+        <div class="modal-body">      
+  
+            <form name="create_user" action="" method="post">
+            <center>Username:</center>
+            <center><input id="name" name="username" style="width:100%;" /></center>
+            <center>Wallet ID:</center>
+            <center><input id="ipfshash"></center>
+            <center><select id="bidAccount" onclick="tocopy()"> </select></center>
+            <center><input id="bidacc" style="width:100%;" readonly><center></center>
+            <center><button type="button" id="buttonUser">Create User</button></center>
+            </form>
+            <br />
+    
+  
       </div> 
-      <div id="loginbox"> 
-          <center>Create User</center>
-          <form name="login" action="" method="post">
-          <center>Username:</center>
-          <center><input name="username" size="48" /></center>
-          <center>Wallet ID:</center>
-          </form>
-          <br />
-          <center><a href="javascript:login('hide');">close</a></center> 
+        
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+  
+    </div>
+  </div>
+
+<!-- Modal -->
+<div id="loginbox" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+          <h4 class="modal-title">Login User</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      <div class="modal-body">      
+        <center>User:</center>
+        <center><input id="name" size="48" /></center>
+        <center>Wallet ID:</center>
+
+    </div> 
+      
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- Modal -->
+<div id="postbox" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+  
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+            <h4 class="modal-title">Post Message</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+   
+          
+        </div>
+        <div class="modal-body">      
+            <textarea id="publisher" name="textarea1" placeholder="" style="width: 100%;"></textarea>
+            <label for="name" class="col-lg-2 control-label">Add picture to Post</label>
+            <input type="file" name="postphoto" id="postphoto">
+            <button type="button" onclick="uploadpostphoto()">Upload</button>
+            <img id="postphotooutput222">
+            <a id="url2"></a>
+            <label for="name" class="col-lg-2 control-label">Ether Ammount</label>
+            <input id="publisherEth" type="text">
+            <button id="buttonPublish" type="button">Publish</button>
+            <br />
       </div> 
-      <div id="postbox"> 
-          <center>Post Message</center>
-          <form name="post_message" action="" method="post">
-          <center><textarea id="publisher" name="textarea1"rows="10" cols="100"placeholder=""></textarea></center>
-          <label for="name" class="col-lg-2 control-label">Add picture to Post</label>
-          <input type="file" name="postphoto" id="postphoto">
-          <button type="button" onclick="uploadpostphoto()">Upload</button>
-          <img id="postphotooutput222">
-          <a id="url2"></a>
-          <label for="name" class="col-lg-2 control-label">Ether Ammount</label>
-          <input id="publisherEth" type="text">
-          <button id="buttonPublish">Publish</button>
-          </form>
-          <br />
-          <center><a href="javascript:post_message('hide');">close</a></center> 
-      </div> 
+        
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+  
+    </div>
+  </div>
+
   <div class="navbar fixed-top d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom box-shadow">
-    <h5 class="my-0 mr-md-auto font-weight-normal">Eth Social Network</h5>
-    <a class="btn btn-outline-primary" href="javascript:post_message('show');">Post</a>
+    <h5 class="my-0 mr-md-auto font-weight-normal">Eth Social Network
+    <input id="score">
+    <button class="btn btn-outline-danger" id="startNET">Debug Start SocialContract</button></h5>
+    
+    <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#postbox">Post</button>
+
     <nav class="my-2 my-md-0 mr-md-3">
           <ul class="nav nav-pills">
           <li class="nav-item dropdown">
-                  <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">Followers</a>
-                  <div class="dropdown-menu">
-                    <a class="dropdown-item" href="#">Link 1</a>
+                  <a id="buttonUpdate" class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">Friends</a>
+                  <div id="friendlist" class="dropdown-menu">
+                    <div><small>Friends</small>
+                      <div id="friendlist">
+                        <a class="dropdown-item" href="#">Link 1</a>
+                    </div>
+                    <small>Recommended</small>
+                    <div id="friendoF">
+                      <a class="dropdown-item" href="#">Link 2 <></a>
+                  </div>
+                    </div>
+                    
                   </div>
                 </li>
       <li class="nav-item dropdown">
         <div>
-          <a class="btn btn-outline-primary" href="javascript:create_user('show');">Sign up</a>
-          <a class="btn btn-outline-primary" href="javascript:login('show')";>Login</a>
+          <button type="button" class="btn btn-success" id="updatePublished" class="">Refresh</button>
+          <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#popupbox">Sign up</button>
+          
+          <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#loginbox">Login</button>
         </div>
       </li>
 
@@ -140,53 +164,10 @@
 
 
 
-    <div class="container">
- 
-
-
+    <div id="PublishStory">
 
     </div>
-    <div class="row  justify-content-center">
-      <div class="card-deck text-center justify-content-center">
-        <div class="card mb-12 box-shadow">
-            <div class="card-header">
-              <h4 class="my-0 font-weight-normal">User publish name</h4>
-              <h4 class="my-0 font-weight-normal">Sponsored</h4>
-            </div>
-            <img class="card-img-top" src="data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%22286%22%20height%3D%22180%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20286%20180%22%20preserveAspectRatio%3D%22none%22%3E%3Cdefs%3E%3Cstyle%20type%3D%22text%2Fcss%22%3E%23holder_163ec9e8c92%20text%20%7B%20fill%3Argba(255%2C255%2C255%2C.75)%3Bfont-weight%3Anormal%3Bfont-family%3AHelvetica%2C%20monospace%3Bfont-size%3A14pt%20%7D%20%3C%2Fstyle%3E%3C%2Fdefs%3E%3Cg%20id%3D%22holder_163ec9e8c92%22%3E%3Crect%20width%3D%22286%22%20height%3D%22180%22%20fill%3D%22%23777%22%3E%3C%2Frect%3E%3Cg%3E%3Ctext%20x%3D%22108.5%22%20y%3D%2297.2%22%3E286x180%3C%2Ftext%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E" alt="Card image cap">
-            <div class="card-body">
-              <h1 class="card-title pricing-card-title">Title publish<small class="text-muted"> shared by </small></h1>
-              <ul class="list-unstyled mt-3 mb-4">
-                <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</li>
-  
-              </ul>
-              <div class="col-12" style="display: inline-block;"><div class="col">Influencers:</div><div class="col" style="float:right"><button type="button" class="btn btn-lg btn-block btn-outline-primary">Influence</button></div></div>
-              
-            </div>
-          </div>
 
-      </div>
-    </div>
-    <div class="row justify-content-center">
-      <div class="card-deck mb-1 text-center">
-        <div class="card mb-12 box-shadow">
-            <div class="card-header">
-              <h4 class="my-0 font-weight-normal">User publish name</h4>
-            </div>
-            <img class="card-img-top" src="data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%22286%22%20height%3D%22180%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20286%20180%22%20preserveAspectRatio%3D%22none%22%3E%3Cdefs%3E%3Cstyle%20type%3D%22text%2Fcss%22%3E%23holder_163ec9e8c92%20text%20%7B%20fill%3Argba(255%2C255%2C255%2C.75)%3Bfont-weight%3Anormal%3Bfont-family%3AHelvetica%2C%20monospace%3Bfont-size%3A14pt%20%7D%20%3C%2Fstyle%3E%3C%2Fdefs%3E%3Cg%20id%3D%22holder_163ec9e8c92%22%3E%3Crect%20width%3D%22286%22%20height%3D%22180%22%20fill%3D%22%23777%22%3E%3C%2Frect%3E%3Cg%3E%3Ctext%20x%3D%22108.5%22%20y%3D%2297.2%22%3E286x180%3C%2Ftext%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E" alt="Card image cap">
-            <div class="card-body">
-              <h1 class="card-title pricing-card-title">Title publish<small class="text-muted"> shared by </small></h1>
-              <ul class="list-unstyled mt-3 mb-4">
-                <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</li>
-  
-              </ul>
-              <div class="col-12"><div class="col"></div><div class="col"><button type="button" class="btn btn-lg btn-block btn-outline-primary">Influence</button></div></div>
-              
-            </div>
-          </div>
-
-      </div>
-    </div>
       <footer class="pt-4 my-md-5 pt-md-5 border-top">
         <div class="row">
           <div class="col-12 col-md">
@@ -201,67 +182,16 @@
 
         </div>
       </footer>
-    </div>
+  
 
-
-    <div class="flextabs fixed-bot d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom box-shadow">
-      <h5 class="my-0 mr-md-auto font-weight-normal">Eth Social Network</h5>
-      <nav class="my-2 my-md-0 mr-md-3">
-            <ul class="nav nav-pills">
-            <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">Followers</a>
-                    <div class="dropdown-menu">
-                      <a class="dropdown-item" href="#">Link 1</a>
-                    </div>
-                  </li>
-        <li class="nav-item dropdown">
-            <div>
-              <a class="btn btn-outline-primary" href="javascript:create_user('show');">Sign up</a>
-              <a class="btn btn-outline-primary" href="javascript:login('show')";>Login</a>
-            </div>
-          </li>
-
-       </ul>
-      </nav>
-    </div>
-    
-    
-
-
-    <script language="JavaScript" type="text/javascript">
-    function login(showhide){
-    if(showhide == "show"){
-        document.getElementById('loginbox').style.visibility="visible";
-    }else if(showhide == "hide"){
-        document.getElementById('loginbox').style.visibility="hidden"; 
-    }
-    }
-    function create_user(showhide){
-    if(showhide == "show"){
-        document.getElementById('popupbox').style.visibility="visible";
-    }else if(showhide == "hide"){
-        document.getElementById('popupbox').style.visibility="hidden"; 
-    }
-    }
-    function post_message(showhide){
-    if(showhide == "show"){
-        document.getElementById('postbox').style.visibility="visible";
-    }else if(showhide == "hide"){
-        document.getElementById('postbox').style.visibility="hidden"; 
-    }
-    }
-    </script>
-    
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js/dist/web3.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/ipfs-mini@1.1.2/dist/ipfs-mini.js"></script>
-  <script src="index.js"></script>
+    
+    
+    <script src="index.js"></script>
 
 
   </body>
