@@ -17,10 +17,12 @@
     accounts.forEach(function(address){
           bidAccount.innerHTML += '<option value="' + address + '">'
             + address + '</option>';
+          bidAccounter.innerHTML += '<option value="' + address + '">'
+            + address + '</option>';
     });
 
     function tocopy(){$('#bidacc').val($('#bidAccount').val()); }
-
+    function tocopy1(){$('#bidacc').val($('#bidAccounter').val()); }
 
 var SocialContract = web3.eth.contract([{"constant":true,"inputs":[],"name":"OwnerIs","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"addressu","type":"address"}],"name":"getlenPublishUser","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"addressu","type":"address"},{"name":"index","type":"uint256"}],"name":"getPublishUser","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"useradd","type":"address"}],"name":"getUserContract","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"useradd","type":"address"},{"name":"publishadd","type":"address"}],"name":"CreatePublish","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[{"name":"","type":"address"}],"name":"Users","outputs":[{"name":"Useradd","type":"address"},{"name":"counter","type":"uint256"},{"name":"exists","type":"bool"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"useradd","type":"address"}],"name":"getUsercount","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"debug_gas_sc","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"sc_owner","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"user","type":"address"},{"name":"contractuser","type":"address"}],"name":"CreateUser","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"name":"addressf","type":"address"}],"name":"AddFriendsS","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"inputs":[],"payable":true,"stateMutability":"payable","type":"constructor"}]);
   $("#startNET").on('click', function (){
@@ -179,7 +181,7 @@ var FriendsoF=[];
 
 $('#buttonFoFUpdate').on('click', function (){
     FriendsoF=[];
-    $("#Mightknow").html("");
+    $("#friendoF").html("");
     Friends.forEach(function(friend){
         socialcore.getUsercount.call(friend.id,
         function (error1, result1){     
@@ -203,7 +205,8 @@ $('#buttonFoFUpdate').on('click', function (){
                                                     obj.name = result5;
                                                     string3 = 'id_'+result3.toString();
                                                     FriendsoF.push(obj);
-                                                    $("#Mightknow").html($("#Mightknow").html()+'<div>'+obj.name+'</div><button id='+string3+' onclick=Add_Friend('+string3+')>Add +</button>');
+                                                    $("#friendoF").html($("#friendoF").html()+'<a class="dropdown-item" href="#">'+ obj.name +'</a><button id='+string3+' onclick=Add_Friend('+string3+')>Add +</button>');
+                                                    
                                                 }else {
                                                     console.log(error5);
                                                 }
@@ -238,7 +241,7 @@ $('#buttonUpdate').on('click', function (){
     socialcore.getUsercount.call($('#bidacc').val(),
     function (error1, result1){ 
         if(!error1){
-            $("#Myfriends").html("");
+            $("#friendlist").html("");
             socialcore.getUserContract.call($('#bidacc').val(),function (error2, result2){ 
                 if(!error2){      
                     for (i=0;i<result1.c[0];i++){
@@ -257,7 +260,8 @@ $('#buttonUpdate').on('click', function (){
                                         obj.id = result3;
                                         obj.name = result5;
                                         Friends.push(obj);
-                                        $("#Myfriends").html($("#Myfriends").html()+'<div>'+obj.name+'</div>');
+                                        $("#friendlist").html($("#friendlist").html()+ '<a class="dropdown-item">'+obj.name+'</a>');
+                                       
                                     } else { 
                                         console.log(error5);
                                     }

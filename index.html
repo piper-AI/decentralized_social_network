@@ -6,13 +6,14 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Ethereum Social Network project</title>
+    <title>SocialNet project</title>
 
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
 
     <!-- Custom styles for this template -->
     <style>
+       body {padding: 80px 0 0 0;background-color:#191414;}
             .card-deck{
                 max-width: 600px;
         }
@@ -28,7 +29,7 @@
     </style>
   </head>
 
-  <body>
+  <body >
  
 <!-- Modal -->
 <div id="popupbox" class="modal fade" role="dialog">
@@ -48,9 +49,9 @@
             <center>Username:</center>
             <center><input id="name" name="username" style="width:100%;" /></center>
             <center>Wallet ID:</center>
-            <center><input id="ipfshash"></center>
+            <center hidden><input id="ipfshash"></center>
             <center><select id="bidAccount" onclick="tocopy()"> </select></center>
-            <center><input id="bidacc" style="width:100%;" readonly><center></center>
+            <center><center></center>
             <center><button type="button" id="buttonUser">Create User</button></center>
             </form>
             <br />
@@ -78,7 +79,7 @@
       </div>
       <div class="modal-body">      
         <center>User:</center>
-        <center><input id="name" size="48" /></center>
+        <center><select id="bidAccounter" onclick="tocopy1()"> </select></center>
         <center>Wallet ID:</center>
 
     </div> 
@@ -126,24 +127,26 @@
   </div>
 
   <div class="navbar fixed-top d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom box-shadow">
-    <h5 class="my-0 mr-md-auto font-weight-normal">Eth Social Network
+    <h5 class="my-0 mr-md-auto font-weight-normal">SocialNet
     <input id="score">
     <button class="btn btn-outline-danger" id="startNET">Debug Start SocialContract</button></h5>
     
-    <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#postbox">Post</button>
+    <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#postbox">Post</button>
 
     <nav class="my-2 my-md-0 mr-md-3">
           <ul class="nav nav-pills">
+          
           <li class="nav-item dropdown">
                   <a id="buttonUpdate" class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">Friends</a>
-                  <div id="friendlist" class="dropdown-menu">
+                  <div id="" class="dropdown-menu">
                     <div><small>Friends</small>
                       <div id="friendlist">
-                        <a class="dropdown-item" href="#">Link 1</a>
+                        
                     </div>
-                    <small>Recommended</small>
+                    
+                    <button id="buttonFoFUpdate" class="btn btn-outline-success"><small>Recommended</small></button>
                     <div id="friendoF">
-                      <a class="dropdown-item" href="#">Link 2 </a>
+                      
                   </div>
                     <small>Add Friend</small>
                       <input class="dropdown-item" id="Friend" placeholder="Add Friend" type=text>
@@ -160,7 +163,7 @@
           <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#loginbox">Login</button>
         </div>
       </li>
-
+      <li class="nav-item"><input id="bidacc" style="width:100%;" readonly placeholder="current user address"></li>  
       </ul>
     </nav>
   </div>
