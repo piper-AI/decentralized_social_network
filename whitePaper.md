@@ -129,6 +129,6 @@ SocialNet up and running.
 
 In the next image is shown the general process driven chart of SocialNet
 
- 
+ ![alt text](https://github.com/jcarrizobrass/decentralized_social_network/blob/master/Process.png)
 
  
