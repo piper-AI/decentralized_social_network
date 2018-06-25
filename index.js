@@ -1,5 +1,6 @@
   var el = function(id){ return document.querySelector(id); };
   var ipfs = new IPFS({ host: 'ipfs.infura.io', protocol: 'https' });
+
   var postphotourl = "";
 
     if (false)
@@ -104,7 +105,7 @@ var publishContract = web3.eth.contract([{"constant":true,"inputs":[],"name":"sh
             console.log('postphotourl: ' + postphotourl);
         }
   });
-
+  postphotourl = "";
     
     });
 
@@ -314,12 +315,12 @@ $('#updatePublished').on('click',function(e,res){
                                             string2 =  'id_'+res2.toString();
                                             console.log(res22[2]);               
                                             var post = JSON.parse(result);
-                                            // console.log("post: " +post.message+"image: "+post.image);
+                                            console.log("post: " +post.message+"image: "+post.image);
                                           
                                             // var image = document.getElementById("postphotooutput"); 
                                             // image.src=post.image;        
-
-                                            if(!post.image){
+                                            
+                                            if(post.image){
                                                 htmltemplate='        <div class="row  justify-content-center">  <div class="card-deck text-center justify-content-center" style="width:100%;"> <div class="card mb-12 box-shadow"> <div class="card-header"> <h4 class="my-0 font-weight-normal">'+obj.fname + '</h4> </div><img class="card-img-top" src="'+post.image+'" alt="Card image cap"> <div class="card-body"> <ul class="list-unstyled mt-3 mb-4"> <li> ' + post.message+ '</li> </ul>';
                                             }
                                             else{
@@ -369,23 +370,27 @@ function publish_ipfs_text(input){
 }  
 
 
+
+
 function upload() {
-      const reader = new FileReader();
-      reader.onloadend = function() {
-        const ipfs = window.IpfsApi('localhost', 5001) // Connect to IPFS
-        const buf = buffer.Buffer(reader.result) // Convert data into buffer
-        ipfs.files.add(buf, (err, result) => { // Upload buffer to IPFS
-          if(err) {
-            console.error(err)
-            return
-          }
-          let url = `https://ipfs.io/ipfs/${result[0].hash}`
-          console.log(`Url --> ${url}`);
-          document.getElementById("url").innerHTML= url;
-          document.getElementById("url").href= url;
-          document.getElementById("output").src = url;
-        })
-      }
+    const reader = new FileReader();
+    reader.onloadend = function() {
+    // Create the IPFS node instance
+    const ipfs = IpfsApi({host: 'ipfs.infura.io', port: 5001, protocol: 'https'});
+    const Buffer = window.IpfsApi().Buffer;
+    const buf = Buffer.from(reader.result);
+    ipfs.add(buf, (err, result) => { // Upload buffer to IPFS
+        if(err) {
+        console.error(err)
+        return
+        }
+        let url = `https://ipfs.io/ipfs/${result[0].hash}`
+        console.log(`Url --> ${url}`);
+        document.getElementById("url").innerHTML= url;
+        document.getElementById("url").href= url;
+        document.getElementById("output").src = url;
+    });
+      };
       const photo = document.getElementById("photo");
       reader.readAsArrayBuffer(photo.files[0]); // Read Provided File
 }
@@ -393,9 +398,11 @@ function upload() {
 function uploadpostphoto() {
       const reader = new FileReader();
       reader.onloadend = function() {
-        const ipfs = window.IpfsApi('localhost', 5001) // Connect to IPFS
-        const buf = buffer.Buffer(reader.result) // Convert data into buffer
-        ipfs.files.add(buf, (err, result) => { // Upload buffer to IPFS
+        // Create the IPFS node instance
+        const ipfs = IpfsApi({host: 'ipfs.infura.io', port: 5001, protocol: 'https'});
+        const Buffer = window.IpfsApi().Buffer;
+        const buf = Buffer.from(reader.result);
+        ipfs.add(buf, (err, result) => { // Upload buffer to IPFS
           if(err) {
             console.error(err)
             return

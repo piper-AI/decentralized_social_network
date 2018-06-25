@@ -121,10 +121,13 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/ipfs-mini@1.1.2/dist/ipfs-mini.js"></script>
+<script src="https://unpkg.com/ipfs/dist/index.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/ipfs/dist/index.min.js"></script>
 
 
 <script>
   var el = function(id){ return document.querySelector(id); };
+  //var ipfs = IpfsApi({host: 'ipfs.infura.io', port: 5001, protocol: 'http'})
   var ipfs = new IPFS({ host: 'ipfs.infura.io', protocol: 'https' });
   var postphotourl = "";
     //{{!-- if (typeof web3 !== 'undefined') --}}
@@ -231,6 +234,7 @@ var publishContract = web3.eth.contract([{"constant":true,"inputs":[],"name":"sh
   });
     //var ipfs_content1 = $('#publisher').val() ;
     var ipfs_content11 = publish_ipfs_text($('#publisher').val());
+    postphotourl = "";
     //console.log("obtained " + ipfs_content11)
     });
 
@@ -488,23 +492,26 @@ function publish_ipfs_text(input){
 }  
 
 
+
 function upload() {
-      const reader = new FileReader();
-      reader.onloadend = function() {
-        const ipfs = window.IpfsApi('localhost', 5001) // Connect to IPFS
-        const buf = buffer.Buffer(reader.result) // Convert data into buffer
-        ipfs.files.add(buf, (err, result) => { // Upload buffer to IPFS
-          if(err) {
-            console.error(err)
-            return
-          }
-          let url = `https://ipfs.io/ipfs/${result[0].hash}`
-          console.log(`Url --> ${url}`);
-          document.getElementById("url").innerHTML= url;
-          document.getElementById("url").href= url;
-          document.getElementById("output").src = url;
-        })
-      }
+    const reader = new FileReader();
+    reader.onloadend = function() {
+    // Create the IPFS node instance
+    const ipfs = IpfsApi({host: 'ipfs.infura.io', port: 5001, protocol: 'https'});
+    const Buffer = window.IpfsApi().Buffer;
+    const buf = Buffer.from(reader.result);
+    ipfs.add(buf, (err, result) => { // Upload buffer to IPFS
+        if(err) {
+        console.error(err)
+        return
+        }
+        let url = `https://ipfs.io/ipfs/${result[0].hash}`
+        console.log(`Url --> ${url}`);
+        document.getElementById("url").innerHTML= url;
+        document.getElementById("url").href= url;
+        document.getElementById("output").src = url;
+    });
+      };
       const photo = document.getElementById("photo");
       reader.readAsArrayBuffer(photo.files[0]); // Read Provided File
 }
@@ -512,9 +519,11 @@ function upload() {
 function uploadpostphoto() {
       const reader = new FileReader();
       reader.onloadend = function() {
-        const ipfs = window.IpfsApi('localhost', 5001) // Connect to IPFS
-        const buf = buffer.Buffer(reader.result) // Convert data into buffer
-        ipfs.files.add(buf, (err, result) => { // Upload buffer to IPFS
+        // Create the IPFS node instance
+        const ipfs = IpfsApi({host: 'ipfs.infura.io', port: 5001, protocol: 'https'});
+        const Buffer = window.IpfsApi().Buffer;
+        const buf = Buffer.from(reader.result);
+        ipfs.add(buf, (err, result) => { // Upload buffer to IPFS
           if(err) {
             console.error(err)
             return
